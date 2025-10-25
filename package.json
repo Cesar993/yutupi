@@ -4,7 +4,8 @@
   "description": "Servidor backend para descargar videos de YouTube con yt-dlp",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "postinstall": "curl -L https://github.com/yt-dlp/yt-dlp/releases/latest/download/yt-dlp -o yt-dlp && chmod +x yt-dlp"
   },
   "keywords": ["yt-dlp", "youtube", "express", "backend"],
   "author": "Cesar Serrano",
@@ -14,4 +15,3 @@
     "express": "^5.1.0"
   }
 }
-

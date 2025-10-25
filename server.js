@@ -20,7 +20,7 @@ if (!fs.existsSync(DOWNLOAD_DIR)) {
 app.use(cors());           // Permitir conexiones desde el frontend
 app.use(express.json());   // Permitir parsear JSON
 
-// ⚡ Aquí exponemos la carpeta downloads para que los videos sean accesibles desde el navegador
+// ⚡ Exponer carpeta downloads
 app.use("/files", express.static(DOWNLOAD_DIR));
 // ---------------------------------------------------
 
@@ -37,8 +37,8 @@ app.post("/download", (req, res) => {
   const timestamp = Date.now(); // para nombre único
   const outputTemplate = path.join(DOWNLOAD_DIR, `${timestamp}-%(title)s.%(ext)s`);
 
-  // Ejecutar yt-dlp
-  const ytdlp = spawn("yt-dlp", ["-f", "best", "-o", outputTemplate, url]);
+  // Ejecutar yt-dlp con ruta relativa
+  const ytdlp = spawn("./yt-dlp", ["-f", "best", "-o", outputTemplate, url]);
 
   let errorOutput = "";
 
@@ -57,8 +57,8 @@ app.post("/download", (req, res) => {
     const file = files.find((f) => f.startsWith(String(timestamp)));
     if (!file) return res.status(500).json({ message: "No se encontró el archivo descargado" });
 
-    // Crear URL de descarga usando la carpeta expuesta
-    const fileUrl = `http://localhost:${PORT}/files/${encodeURIComponent(file)}`;
+    // Crear URL de descarga relativa
+    const fileUrl = `/files/${encodeURIComponent(file)}`;
     res.json({ message: "Video descargado correctamente ✅", url: fileUrl });
   });
 });
@@ -66,5 +66,5 @@ app.post("/download", (req, res) => {
 // Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
-  console.log(`Archivos se sirven en http://localhost:${PORT}/files/`);
+  console.log(`Archivos se sirven en /files/`);
 });
