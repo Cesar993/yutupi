@@ -1,6 +1,7 @@
 {
   "name": "yutup",
   "version": "1.0.0",
+  "type": "module",
   "description": "Servidor backend para descargar videos de YouTube con yt-dlp",
   "main": "server.js",
   "scripts": {
