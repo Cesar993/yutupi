@@ -11,7 +11,7 @@ const PORT = process.env.PORT || 5000;
 // Carpeta donde se guardarán los videos
 const DOWNLOAD_DIR = path.join(process.cwd(), "downloads");
 
-// Asegurar que exista
+// Asegurar que exista la carpeta
 if (!fs.existsSync(DOWNLOAD_DIR)) {
   fs.mkdirSync(DOWNLOAD_DIR, { recursive: true });
 }
@@ -37,7 +37,7 @@ app.post("/download", (req, res) => {
   const timestamp = Date.now(); // para nombre único
   const outputTemplate = path.join(DOWNLOAD_DIR, `${timestamp}-%(title)s.%(ext)s`);
 
-  // Ejecutar yt-dlp con ruta relativa
+  // ⚡ Ejecutar yt-dlp usando ruta relativa (./yt-dlp)
   const ytdlp = spawn("./yt-dlp", ["-f", "best", "-o", outputTemplate, url]);
 
   let errorOutput = "";
@@ -57,7 +57,7 @@ app.post("/download", (req, res) => {
     const file = files.find((f) => f.startsWith(String(timestamp)));
     if (!file) return res.status(500).json({ message: "No se encontró el archivo descargado" });
 
-    // Crear URL de descarga relativa
+    // ⚡ Crear URL pública usando la URL de Render
     const fileUrl = `/files/${encodeURIComponent(file)}`;
     res.json({ message: "Video descargado correctamente ✅", url: fileUrl });
   });
