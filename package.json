@@ -1,0 +1,17 @@
+{
+  "name": "yutup",
+  "version": "1.0.0",
+  "description": "Servidor backend para descargar videos de YouTube con yt-dlp",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": ["yt-dlp", "youtube", "express", "backend"],
+  "author": "Cesar Serrano",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}
+
